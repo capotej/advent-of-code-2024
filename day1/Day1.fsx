@@ -1,4 +1,4 @@
-﻿let lines = [ for line in System.IO.File.ReadLines("input.txt") -> line ]
+﻿let lines: string list = [ for line in System.IO.File.ReadLines("input.txt") -> line ]
 
 let pairs = lines |> List.map (fun x -> x.Split("   "))
 
