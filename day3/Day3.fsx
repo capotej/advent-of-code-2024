@@ -5,7 +5,6 @@ let input =
 
 let matches = Regex.Matches(input, @"mul\((\d+),(\d+)\)")
 
-// [ for foundMatch in matches ->  printfn "%A" foundMatch.Groups ] |> Seq.map
 let results =
     [ for foundMatch in matches -> foundMatch ]
     |> List.map (fun x -> int x.Groups[1].Value * int x.Groups[2].Value)
