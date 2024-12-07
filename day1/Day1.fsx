@@ -1,16 +1,10 @@
-﻿let lines: string list = [ for line in System.IO.File.ReadLines("input.txt") -> line ]
+﻿#load "Util.fsx"
 
-let pairs = lines |> List.map (fun x -> x.Split("   "))
-
-let columnA = pairs |> List.map (fun x -> int x[0]) |> List.sort
-let columnB = pairs |> List.map (fun x -> int x[1]) |> List.sort
-
-let distance x y = 
-    let sortedPair = [x; y] |> List.sort
+let left, right = Util.unzipInputFileIntoLists
+let distance x y =
+    let sortedPair = [ x; y ] |> List.sort
     sortedPair[1] - sortedPair[0]
 
-let distances = [ for (colA, colB) in List.zip columnA columnB -> distance colA  colB  ]
-
-let sumDistance = List.sum distances
+let sumDistance = [ for (colA, colB) in List.zip left right -> distance colA colB  ] |> List.sum
 
 printfn "%d" sumDistance
