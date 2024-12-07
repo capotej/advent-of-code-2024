@@ -1,6 +1,7 @@
 ﻿#load "Util.fsx"
 
 let left, right = Util.unzipInputFileIntoLists
+
 let distance x y =
     let sortedPair = [ x; y ] |> List.sort
     sortedPair[1] - sortedPair[0]
