@@ -21,8 +21,8 @@ let isSafeReport (list: int array): bool =
     isIncreasingOrDecreasing(list) && listWithinRange(list)
 
 let isPossiblySafe(list: int array) = 
-    let permutedLists = list |> Array.mapi(fun i x -> Array.removeAt i list)
-    permutedLists |> Array.exists(fun x -> isSafeReport x)
+    list |> Array.mapi(fun i x -> Array.removeAt i list)
+         |> Array.exists(fun x -> isSafeReport x)
 
 let safeReports, unsafeReports = allReports |> List.partition(fun x -> isSafeReport x)
 let possiblySafeReports = unsafeReports |> List.filter(fun x -> isPossiblySafe(x))
