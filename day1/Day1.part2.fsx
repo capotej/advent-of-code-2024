@@ -10,4 +10,4 @@ let similarity =
     |> List.map (fun leftNumber -> leftNumber * timesNumberWasFound leftNumber right)
     |> List.sum
 
-printf "%d" similarity 
+printfn "%d" similarity 
