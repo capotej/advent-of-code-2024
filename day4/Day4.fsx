@@ -66,5 +66,6 @@ let wordsFoundForCoord(c: Coordinate): int =
 
 let result =
     grid
+    |> List.filter(fun x -> x.Data = 'X')
     |> List.map wordsFoundForCoord
     |> List.sum
