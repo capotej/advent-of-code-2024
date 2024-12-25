@@ -17,7 +17,7 @@ let gridContainsCoord(coord: Coordinate): bool =
 let gridContainsWord(w: Word): bool = 
     w |> Seq.forall(fun x -> gridContainsCoord x)
 
-let candidates(c: Coordinate): Word list =
+let xmasCandidates(c: Coordinate): Word list =
     let y, x = c.Y, c.X
 
     [ [ { Y = y; X = x; Data = 'X'} 
@@ -62,7 +62,7 @@ let candidates(c: Coordinate): Word list =
     ] 
 
 let wordsFoundForCoord(c: Coordinate): int =
-    (0, (candidates c)) ||> List.fold(fun s w -> if gridContainsWord w then s + 1 else s)
+    (0, (xmasCandidates c)) ||> List.fold(fun s w -> if gridContainsWord w then s + 1 else s)
 
 let result =
     grid
