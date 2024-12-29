@@ -17,55 +17,86 @@ let gridContainsCoord(coord: Coordinate): bool =
 let gridContainsWord(w: Word): bool = 
     w |> Seq.forall(fun x -> gridContainsCoord x)
 
-let xmasCandidates(c: Coordinate): Word list =
+// XMAS in all 8 directions
+let XMASCandidates(c: Coordinate): Word list =
     let y, x = c.Y, c.X
 
     [ [ { Y = y; X = x; Data = 'X'} 
         { Y = y - 1; X = x; Data = 'M' }
         { Y = y - 2; X = x; Data = 'A' }
-        { Y = y - 3; X = x; Data = 'S' } ] |> List.toSeq // 1
+        { Y = y - 3; X = x; Data = 'S' } ] // 1
 
       [ { Y = y; X = x; Data = 'X'}
         { Y = y; X = x - 1; Data = 'M' }
         { Y = y; X = x - 2; Data = 'A' }
-        { Y = y; X = x - 3; Data = 'S' } ] |> List.toSeq // 2
+        { Y = y; X = x - 3; Data = 'S' } ] // 2
 
       [ { Y = y; X = x; Data = 'X'}
         { Y = y - 1; X = x - 1; Data = 'M' }
         { Y = y - 2; X = x - 2; Data = 'A' }
-        { Y = y - 3; X = x - 3; Data = 'S' } ] |> List.toSeq // 3
+        { Y = y - 3; X = x - 3; Data = 'S' } ] // 3
 
       [ { Y = y; X = x; Data = 'X'}
         { Y = y + 1; X = x; Data = 'M' }
         { Y = y + 2; X = x; Data = 'A' }
-        { Y = y + 3; X = x; Data = 'S' } ] |> List.toSeq // 4
+        { Y = y + 3; X = x; Data = 'S' } ]  // 4
 
       [ { Y = y; X = x; Data = 'X'}
         { Y = y; X = x + 1; Data = 'M' }
         { Y = y; X = x + 2; Data = 'A' }
-        { Y = y; X = x + 3; Data = 'S' } ] |> List.toSeq // 5
+        { Y = y; X = x + 3; Data = 'S' } ] // 5
 
       [ { Y = y; X = x; Data = 'X'}
         { Y = y + 1; X = x + 1; Data = 'M' }
         { Y = y + 2; X = x + 2; Data = 'A' }
-        { Y = y + 3; X = x + 3; Data = 'S' } ] |> List.toSeq // 6
+        { Y = y + 3; X = x + 3; Data = 'S' } ] // 6
 
       [ { Y = y; X = x; Data = 'X'}
         { Y = y + 1; X = x - 1; Data = 'M' }
         { Y = y + 2; X = x - 2; Data = 'A' }
-        { Y = y + 3; X = x - 3; Data = 'S' } ] |> List.toSeq // 7
+        { Y = y + 3; X = x - 3; Data = 'S' } ]  // 7
 
       [ { Y = y; X = x; Data = 'X'}
         { Y = y - 1; X = x + 1; Data = 'M' }
         { Y = y - 2; X = x + 2; Data = 'A' }
-        { Y = y - 3; X = x + 3; Data = 'S' } ] |> List.toSeq // 8 
+        { Y = y - 3; X = x + 3; Data = 'S' } ] // 8 
     ] 
 
-let wordsFoundForCoord(c: Coordinate): int =
-    (0, (xmasCandidates c)) ||> List.fold(fun s w -> if gridContainsWord w then s + 1 else s)
+let xMASCandidates(c: Coordinate): Word list =
+    let y, x = c.Y, c.X
+    [ [ { Y = y; X = x; Data = 'M'} 
+        { Y = y; X = x + 2; Data = 'M' }
+        { Y = y + 1; X = x + 1; Data = 'A' }
+        { Y = y + 2; X = x; Data = 'S' } 
+        { Y = y + 2; X = x + 2; Data = 'S' } ] // 1
+      [ { Y = y; X = x; Data = 'M'} 
+        { Y = y + 1; X = x + 1; Data = 'A' }
+        { Y = y + 2; X = x; Data = 'M' }
+        { Y = y; X = x + 2; Data = 'S' }
+        { Y = y + 2; X = x + 2; Data = 'S' } ] // 2
+      [ { Y = y; X = x; Data = 'S'}
+        { Y = y + 1; X = x + 1; Data = 'A' }
+        { Y = y + 2; X = x; Data = 'M' }
+        { Y = y; X = x + 2; Data = 'S' }
+        { Y = y + 2; X = x + 2; Data = 'M' } ] // 3
+      [ { Y = y; X = x; Data = 'S'} 
+        { Y = y + 1; X = x + 1; Data = 'A' }
+        { Y = y + 2; X = x; Data = 'S' }
+        { Y = y; X = x + 2; Data = 'M' }
+        { Y = y + 2; X = x + 2; Data = 'M' } ] // 4
+    ]
+    
 
-let result =
+// Part 1
+let xmasFoundForCoord(c: Coordinate): int =
+    (0, (XMASCandidates c)) ||> List.fold(fun s w -> if gridContainsWord w then s + 1 else s)
+
+// Part 2
+let masFoundForCoord(c: Coordinate): int =
+    (0, (xMASCandidates c)) ||> List.fold(fun s w -> if gridContainsWord w then s + 1 else s)
+
+
+let masResult =
     grid
-    |> List.filter(fun x -> x.Data = 'X')
-    |> List.map wordsFoundForCoord
+    |> List.map masFoundForCoord
     |> List.sum
